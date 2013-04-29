@@ -18,7 +18,7 @@ Follow these simple steps to setup your server with branch-specific git automati
 8. It now should autodeploy!
 
 ## The actual script
-Use it like so: `./git-autodeploy-setup.sh [local dirname] [url remote repo] [branch to track]
+Use it like so: `./git-autodeploy-setup.sh [local dirname] [url remote repo] [branch to track]`
 Explanation:
 [local dirname] This is just the name of the wrapping directory to be created, I often use the website name prefixed by some branch identifier, e.g. `dev.jockegustin.se` for the branch `develop` of my website. 
 [url remote repo] This is the URL to your remote repository. Like git@github.com:blablabla...
