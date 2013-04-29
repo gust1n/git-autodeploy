@@ -1,19 +1,9 @@
 #!/bin/bash
 
-# Notes to self
-# 1. Create repo at bitbucket/github
-# 2. Make sure corresponding branches exist at origin
-# 3. Add www-data's ssh key to origins deployment keys
-# 4. Run setup.sh as www-data (su www-data)
-# 5. Run a manual deploy as www-data to add fingerprint (php ./deploy.php)
-# 6. Set up nginx/apache to your new folder
-# 7. Add servicehook to origin and point it to deploy.php
-# 8. It now should autodeploy!
-
 #If dir or repo was not passed, output help
 if [ -z "$2" ]
 then
-echo "Usage: setup [local dirname] [url remote repo] [branch to track]"
+echo "Usage: ./git-autodeploy-setup [local dirname] [url remote repo] [branch to track]"
 exit 1
 fi
 
