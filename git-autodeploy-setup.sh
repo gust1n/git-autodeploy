@@ -10,7 +10,6 @@ fi
 DIR=$1
 REMOTE_REPO=$2
 
-PATH_WEBROOTS="/srv/www/"
 DIR_CONTENT="public_html"
 DIR_REPO="repo"
 DIR_LOGS="logs"
@@ -26,6 +25,7 @@ fi
 if [ -d $DIR ];
 then
 echo "Dir $DIR already exists"
+exit 1
 else
 
 mkdir $DIR
@@ -40,19 +40,23 @@ mkdir $DIR_LOGS
 cd $DIR_CONTENT
 
 git --git-dir=$DIR/$DIR_REPO --work-tree=. init && echo "gitdir: $DIR/$DIR_REPO" > .git
-chmod og-rx .git #secure the file
+chmod og-rx .git #(possibly) secure the file
 git remote add -t $BRANCH -f origin $REMOTE_REPO
 git checkout $BRANCH
 
-#Create simple phpfile to hook to bitbucket/github sericehooks
+#Create simple deploy.php file to hook to bitbucket/github sericehooks
 cat > deploy.php << EOF
 <?php exec('git pull'); ?>
 EOF
 
 #Add deploy file to .gitignore
-echo "deploy.php"  >>  .gitignore
+#echo "deploy.php"  >>  .gitignore
 
 cd $DIR/$DIR_REPO
+
+#This is an ugly but cool and working method,
+#To allow for pushing directly to this repo we have to check out another
+#branch pre-receive and then switch back post-receive
 
 #Switch to temp branch to be able to push to this repos selected branch
 cat > hooks/pre-receive << EOF
@@ -74,23 +78,3 @@ chmod +x hooks/post-receive
 chown -R www-data:www-data $DIR
 
 fi
-
-#Bare repo
-# cd $PATH_REPOS$DIR
-# git init --bare
-
-# cat > hooks/post-receive << EOF
-# #!/bin/sh
-# GIT_WORK_TREE=$PATH_WEBROOTS$DIR git checkout -f $BRANCH
-# EOF
-# chmod +x hooks/post-receive
-
-# cat > hooks/post-receive << EOF
-# #!/bin/sh
-# GIT_WORK_TREE=$PATH_WEBROOTS$DIR git checkout -f
-# EOF
-# chmod +x hooks/post-receive
-
-# git remote add -t $BRANCH -f origin $REMOTE_REPO
-# git checkout -f $BRANCH
-#git fetch -q origin master:master

@@ -2,6 +2,23 @@
 
 Follow these simple steps to setup your server with branch-specific git automatic deployment!
 
+## Description
+Tired of setting up webservers and ftp-account? Do you use git to track your development but then feel
+stuck in old techniques when trying to deploy? Use this script to setup a webroot for automatic git deployment.
+
+##What it does
+It creates a basic folder structure like this:
+```
+your-passed folder name
+	/public_html
+	/logs
+	/repo
+```
+It then initializes a git repo inside the public_html folder but with a "remote" repo, located in the /repo folder.
+This is to separate your public content to important stuff like the repo.
+
+Note that this does *not* use a --bare git repo, you can acually push directly to this repo. Read inline comments if your interrested in the techniques I've used.
+
 ## Installation
 1. Run `git clone https://github.com/JockeGustin/git-autodeploy.git` to download the actual script to your webserver.
 2. If you dont want the standard structure with `/public_html`, `/logs` and `/repo` you should change the folder names (inside git-autodeploy-setup.sh)
