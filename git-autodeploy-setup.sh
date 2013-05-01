@@ -16,22 +16,22 @@ DIR_REPO="repo"
 DIR_LOGS="logs"
 
 if [ -n "$3" ]
-# Test whether command-line argument is present (non-empty).
+# Settings branch to track is optional, defaults to master
 then
 BRANCH=$3
 else
 BRANCH="master"
 fi
 
-if [ -d $PATH_WEBROOTS$DIR ];
+if [ -d $DIR ];
 then
-echo "Dir $PATH_WEBROOTS$DIR already exists"
+echo "Dir $DIR already exists"
 else
 
-mkdir $PATH_WEBROOTS$DIR
+mkdir $DIR
 
 #Non-bare repo solution
-cd $PATH_WEBROOTS$DIR
+cd $DIR
 
 mkdir $DIR_CONTENT
 mkdir $DIR_REPO
@@ -39,7 +39,7 @@ mkdir $DIR_LOGS
 
 cd $DIR_CONTENT
 
-git --git-dir=$PATH_WEBROOTS$DIR/$DIR_REPO --work-tree=. init && echo "gitdir: $PATH_WEBROOTS$DIR/$DIR_REPO" > .git
+git --git-dir=$DIR/$DIR_REPO --work-tree=. init && echo "gitdir: $DIR/$DIR_REPO" > .git
 chmod og-rx .git #secure the file
 git remote add -t $BRANCH -f origin $REMOTE_REPO
 git checkout $BRANCH
@@ -52,7 +52,7 @@ EOF
 #Add deploy file to .gitignore
 echo "deploy.php"  >>  .gitignore
 
-cd $PATH_WEBROOTS$DIR/$DIR_REPO
+cd $DIR/$DIR_REPO
 
 #Switch to temp branch to be able to push to this repos selected branch
 cat > hooks/pre-receive << EOF
@@ -70,7 +70,7 @@ EOF
 chmod +x hooks/pre-receive
 chmod +x hooks/post-receive
 
-cd $PATH_WEBROOTS
+#Make www-data user owner of the files
 chown -R www-data:www-data $DIR
 
 fi
