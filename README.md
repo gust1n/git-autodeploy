@@ -9,7 +9,7 @@ stuck in old techniques when trying to deploy? Use this script to setup a webroo
 ##What it does
 It creates a basic folder structure like this:
 ```
-your-passed folder name
+/your-passed-webroot-path
 	/public_html
 	/logs
 	/repo
