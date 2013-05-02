@@ -45,21 +45,19 @@ mkdir $DIR/$DIR_LOGS
 #Become the web user (that should own the deployment keys)
 su $WEB_USER
 
+#Initialize the git repo
 git --git-dir=$DIR/$DIR_REPO --work-tree=. init $DIR/$DIR_CONTENT
 echo "gitdir: $DIR/$DIR_REPO" > $DIR/$DIR_CONTENT/.git
 chmod og-rx $DIR/$DIR_CONTENT/.git #(possibly) secure the file
 
-cd $DIR/$DIR_CONTENT
-git remote add -t $BRANCH -f origin $REMOTE_REPO
-git checkout $BRANCH
+#Add the remote to the repo
+git --git-dir $DIR/$DIR_REPO remote add -t $BRANCH -f origin $REMOTE_REPO
+git --git-dir $DIR/$DIR_REPO checkout $BRANCH
 
 #Create simple deploy.php file to hook to bitbucket/github sericehooks
 cat > $DIR/$DIR_CONTENT/deploy.php << EOF
 <?php exec('git pull'); ?>
 EOF
-
-#Add deploy file to .gitignore
-#echo "deploy.php"  >>  .gitignore
 
 #This is an ugly but cool and working method,
 #To allow for pushing directly to this repo we have to check out another
