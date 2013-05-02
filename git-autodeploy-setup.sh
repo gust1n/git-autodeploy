@@ -14,6 +14,9 @@ DIR_CONTENT="public_html"
 DIR_REPO="repo"
 DIR_LOGS="logs"
 
+WEB_USER="www-data"
+WEB_USER_GROUP="www-data"
+
 if [ -n "$3" ]
 # Settings branch to track is optional, defaults to master
 then
@@ -24,7 +27,7 @@ fi
 
 if [ -d $DIR ];
 then
-echo "Dir $DIR already exists"
+echo "Dir $DIR already exists, please enter a directory not yet created"
 exit 1
 else
 
@@ -39,7 +42,9 @@ mkdir $DIR_LOGS
 
 cd $DIR_CONTENT
 
-git --git-dir=$DIR/$DIR_REPO --work-tree=. init && echo "gitdir: $DIR/$DIR_REPO" > .git
+su $WEB_USER
+git --git-dir=$DIR/$DIR_REPO --work-tree=. init 
+echo "gitdir: $DIR/$DIR_REPO" > .git
 chmod og-rx .git #(possibly) secure the file
 git remote add -t $BRANCH -f origin $REMOTE_REPO
 git checkout $BRANCH
@@ -75,6 +80,6 @@ chmod +x hooks/pre-receive
 chmod +x hooks/post-receive
 
 #Make www-data user owner of the files
-chown -R www-data:www-data $DIR
+chown -R $WEB_USER:$WEB_USER_GROUP $DIR
 
 fi
