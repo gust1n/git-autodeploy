@@ -17,21 +17,25 @@ DIR_LOGS="logs"
 WEB_USER="www-data"
 WEB_USER_GROUP="www-data"
 
+# Specific branch to track is optional, defaults to master
 if [ -n "$3" ]
-# Settings branch to track is optional, defaults to master
 then
 BRANCH=$3
 else
 BRANCH="master"
 fi
 
+# If target directory exists
 if [ -d $DIR ];
 then
-echo "Dir $DIR already exists, please enter a directory not yet created"
-exit 1
+read -p "Directory $DIR already exists and the content may be overwritten, continue anyways? [y/N] " -n 1
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    exit 1
+fi
 else
-
 mkdir $DIR
+fi
 
 #Non-bare repo solution
 cd $DIR
@@ -42,7 +46,9 @@ mkdir $DIR_LOGS
 
 cd $DIR_CONTENT
 
+#Become the web user that should own the deployment keys
 su $WEB_USER
+
 git --git-dir=$DIR/$DIR_REPO --work-tree=. init 
 echo "gitdir: $DIR/$DIR_REPO" > .git
 chmod og-rx .git #(possibly) secure the file
@@ -81,5 +87,3 @@ chmod +x hooks/post-receive
 
 #Make www-data user owner of the files
 chown -R $WEB_USER:$WEB_USER_GROUP $DIR
-
-fi
