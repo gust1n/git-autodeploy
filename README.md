@@ -9,7 +9,7 @@ stuck in old techniques when trying to deploy? Use this script to setup a webroo
 ##What it does
 It creates a basic folder structure like this:
 ```
-/your-passed-webroot-path
+/your/passed/webroot/path
 	/public_html
 	/logs
 	/repo
@@ -35,8 +35,8 @@ Note that this does *not* use a --bare git repo, you can acually push directly t
 8. It now should autodeploy!
 
 ## The actual script
-Use it like so: `./git-autodeploy-setup.sh [local dirname] [url remote repo] [branch to track]`
-- [local dirname] This is just the name of the path to the directory to be created, I often use the website name prefixed by some branch identifier, e.g. `/srv/www/dev.jockegustin.se` for the branch `develop` of my website. 
-- [url remote repo] This is the URL to your remote repository. Like git@github.com:blablabla...
-- [branch to track] Defaults to `master` but can track any branchname you provide. Just make sure the branch actually exists
+Use it like so: `./git-autodeploy-setup.sh [path] [url repo] [branch]`
+- [path] This is the path to the directory to be created, I often use the website name prefixed by some branch identifier, e.g. `/srv/www/dev.jockegustin.se` for the branch `develop` of my website. 
+- [url repo] This is the URL to your remote repository. Like git@github.com:blablabla...
+- [branch] Branch to track. Defaults to `master` but can track any branchname you provide. Just make sure the branch actually exists
 
