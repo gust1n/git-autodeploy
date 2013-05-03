@@ -28,11 +28,11 @@ Note that this does *not* use a --bare git repo, you can acually push directly t
 1. Create the actual repo to be tracked at your service of choise (bitbucket, github, etc.)
 2. Make sure the branch you want to track exists in your remote repository
 3. (Optional, this is only needed when your repository is not public). Add the user www-data's (the script will set ownership to www-data, change if otherwise) ssh key to remote repositories deployment keys
-4. Run ./git-autodeploy-setup.sh as www-data (su www-data to change to the www-data user)
-5. Just to make sure it works, run a manual deploy as www-data: `php ./deploy.php` (deploy.php is created by the script)
+4. Run ./git-autodeploy-setup.sh as www-data: `sudo su www-data ./git-autodeploy-setup.sh [your args])`
+5. Just to make sure it works, run a manual deploy as www-data: `sudo su www-data -c 'php ./deploy.php'` (deploy.php is created by the script)
 6. Set up your webserver (nginx/apache/whatever) to point to your new `public_html` folder
-7. Add a post commit servicehook to your remote repository and point it to http://yourwebsite.com/deploy.php
-8. It now should autodeploy!
+7. (Optional) Add a post commit servicehook to your remote repository and point it to http://yourwebsite.com/deploy.php
+8. It now should autodeploy! You might not want to use this in production since your remote repo might be hacked. It's probably safer to manually deploy like in step 5.
 
 ## The actual script
 Use it like so: `./git-autodeploy-setup.sh [path] [url repo] [branch]`
