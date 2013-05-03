@@ -42,9 +42,6 @@ mkdir $DIR/$DIR_CONTENT
 mkdir $DIR/$DIR_REPO
 mkdir $DIR/$DIR_LOGS
 
-#Become the web user (that should own the deployment keys)
-su $WEB_USER
-
 #Initialize the git repo
 git --git-dir=$DIR/$DIR_REPO --work-tree=. init $DIR/$DIR_CONTENT
 echo "gitdir: $DIR/$DIR_REPO" > $DIR/$DIR_CONTENT/.git
