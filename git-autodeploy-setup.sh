@@ -14,9 +14,6 @@ DIR_CONTENT="public_html"
 DIR_REPO="repo"
 DIR_LOGS="logs"
 
-WEB_USER="www-data"
-WEB_USER_GROUP="www-data"
-
 # Specific branch to track is optional, defaults to master
 if [ -n "$3" ]
 then
@@ -75,6 +72,3 @@ EOF
 #Make hooks excecutable
 chmod +x $DIR/$DIR_REPO/hooks/pre-receive
 chmod +x $DIR/$DIR_REPO/hooks/post-receive
-
-#Make www-data user owner of the files
-chown -R $WEB_USER:$WEB_USER_GROUP $DIR
