@@ -31,7 +31,7 @@ then
     exit 1
 fi
 else
-mkdir $DIR
+mkdir -p $DIR
 fi
 
 #Non-bare repo solution
