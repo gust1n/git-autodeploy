@@ -48,11 +48,6 @@ chmod og-rx $DIR/$DIR_CONTENT/.git #(possibly) secure the file
 git --git-dir $DIR/$DIR_REPO remote add -t $BRANCH -f origin $REMOTE_REPO
 git --git-dir $DIR/$DIR_REPO checkout $BRANCH
 
-#Create simple deploy.php file to hook to bitbucket/github sericehooks
-cat > $DIR/$DIR_CONTENT/deploy.php << EOF
-<?php exec('git pull'); ?>
-EOF
-
 #This is an ugly but cool and working method,
 #To allow for pushing directly to this repo we have to check out another
 #branch pre-receive and then switch back post-receive
